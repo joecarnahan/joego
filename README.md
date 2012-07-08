@@ -1,4 +1,1 @@
-joego
-=====
-
-Repository for my Go code as I learn the language
+My attempts to solve Project Euler problems in Go
