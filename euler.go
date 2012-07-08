@@ -1,7 +1,7 @@
 package main
 
 import (
-	"euler"
+	"github.com/joecarnahan/joego/euler"
 	"fmt"
 )
 
