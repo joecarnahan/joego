@@ -1,0 +1,2 @@
+Add a harness for repeatedly running and testing code so that I can measure performance differences
+Implement stream-based version of Sieve of Erasthones and compare with array-based version
