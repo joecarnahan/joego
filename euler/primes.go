@@ -59,6 +59,19 @@ func PrimesUnder(limit int) []int {
 	return extractPrimes(composites)
 }
 
+// Finds all prime factors of the given value.
+func PrimeFactorsOf(toFactor int) *list.List {
+	result := list.New()
+	primes := PrimesUnder((toFactor + 2) / 2)
+	for _, prime := range primes {
+		for toFactor % prime == 0 {
+			result.PushBack(prime)
+			toFactor = toFactor / prime
+		}
+	}
+	return result
+}
+
 // Interface for generating successive prime numbers
 type PrimeGenerator struct {
 	// List should only contain values of type int

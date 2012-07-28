@@ -1,24 +1,18 @@
 package euler
 
-import "fmt"
+import "container/list"
 
-const Problem005Default = 10
-
-func mergeSlices(first, second []int) []int {
-	// TODO
-}
-
-func collectFactors(toFactor int) []int {
-	// TODO
-}
+const Problem005Default = 20
 
 func Problem005(limit int) int {
-	// TODO
-	primes := PrimesUnder(limit + 1)
-	fmt.Println(primes)
+	factors := list.New()
+	for i := 2; i <= limit; i++ {
+		newFactors := PrimeFactorsOf(i)
+		factors = MergeLists(factors, newFactors)
+	}
 	product := 1
-	for _, prime := range primes {
-		product *= prime
+	for e := factors.Front(); e != nil; e = e.Next() {
+		product *= e.Value.(int)
 	}
 	return product
 }

@@ -30,6 +30,10 @@ func TestPrimesUnder(t *testing.T) {
 	}
 }
 
+func TestPrimesUnder(t *testing.T) {
+	// TODO Once list equality is implemented and tested
+}
+
 func TestPrimeGenerator(t *testing.T) {
 	generator := NewPrimeGenerator()
 	for _, expected := range primes {
@@ -38,3 +42,4 @@ func TestPrimeGenerator(t *testing.T) {
 		}
 	}
 }
+
