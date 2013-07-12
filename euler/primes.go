@@ -64,7 +64,7 @@ func PrimeFactorsOf(toFactor int) *list.List {
 	result := list.New()
 	primes := PrimesUnder((toFactor + 2) / 2)
 	for _, prime := range primes {
-		for toFactor % prime == 0 {
+		for toFactor%prime == 0 {
 			result.PushBack(prime)
 			toFactor = toFactor / prime
 		}
@@ -86,7 +86,7 @@ func NewPrimeGenerator() *PrimeGenerator {
 
 func divisibleByAny(toTest int, values *list.List) bool {
 	for e := values.Front(); e != nil; e = e.Next() {
-		if toTest % e.Value.(int) == 0 {
+		if toTest%e.Value.(int) == 0 {
 			return true
 		}
 	}

@@ -1,8 +1,8 @@
 package euler
 
 import (
-	"testing"
 	"reflect"
+	"testing"
 )
 
 // The first 100 prime numbers.
@@ -10,7 +10,7 @@ var primes = []int{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 5
 
 func TestPrimesUnder(t *testing.T) {
 	type InputOutput struct {
-		Input int
+		Input  int
 		Output []int
 	}
 	testCases := []InputOutput{
@@ -20,7 +20,7 @@ func TestPrimesUnder(t *testing.T) {
 		InputOutput{4, []int{2, 3}},
 		InputOutput{10, []int{2, 3, 5, 7}},
 		InputOutput{32, []int{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31}},
-		InputOutput{primes[len(primes) - 1] + 1, primes}}
+		InputOutput{primes[len(primes)-1] + 1, primes}}
 	for _, testCase := range testCases {
 		actual := PrimesUnder(testCase.Input)
 		if !reflect.DeepEqual(actual, testCase.Output) {
@@ -42,4 +42,3 @@ func TestPrimeGenerator(t *testing.T) {
 		}
 	}
 }
-
