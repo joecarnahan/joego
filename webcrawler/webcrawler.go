@@ -12,25 +12,26 @@ type Fetcher interface {
 	Fetch(url string) (body string, urls []string, err error)
 }
 
-type result struct {
-	url string
+type page struct {
+	url   string
 	depth int
 }
 
-// Reads results from allResults and writes out any results that should be crawled based
-// on what results have been seen so far. Specifically, the same URL will only be crawled
+// Reads pages from allPages and writes out any pages that should be crawled based
+// on what pages have been seen so far. Specifically, the same URL will only be crawled
 // twice if it is encountered again at a higher depth than it was encountered before.
 //
-// Loops until the allResults channel is closed. Closes the filteredResults channel before
+// Loops until the allPages channel is closed. Closes the filteredPages channel before
 // exiting.
-func filterResults(allResults chan result, filteredResults chan result) {
+func filterPages(allPages chan page, filteredPages chan page) {
 	urlDepths := make(map[string]int)
-	for result := range allResults {
-		if (urlDepths[result.url] == 0) || /* RESUME HERE Figure out depth calculation */ (urlDepths[result.url] {
-			urlDepths[result.url] = result.depth
-			filteredResults <- result
+	for next_page := range allPages {
+		if urlDepths[next_page.url] < next_page.depth {
+			urlDepths[next_page.url] = next_page.depth
+			filteredPages <- next_page
 		}
 	}
+	close(filteredPages)
 }
 
 // Prints any strings that are sent to it to the given Writer. Loops until the given
@@ -41,105 +42,43 @@ func printStrings(toPrint chan string, output io.Writer) {
 	}
 }
 
-func parallelCrawl(url string, depth int, 
+func parallelCrawl(fetcher Fetcher, to_crawl page, text_output chan string, page_output chan page, done chan bool) {
+	body, urls, err := fetcher.Fetch(to_crawl.url)
+	if err != nil {
+		text_output <- err.Error()
+		return
+	}
+	text_output <- fmt.Sprintf("found: %s %q\n", to_crawl.url, body)
+	for _, url := range urls {
+		page_output <- page{url, to_crawl.depth - 1}
+	}
+	done <- true
+}
 
 func Crawl(url string, depth int, fetcher Fetcher) {
+	// Set up threadsafe output.
 	output := make(chan string)
 	go printStrings(output, os.Stdout)
-	allUrls := make(chan string)
-	filteredUrls := make(chan string)
-	go filterUrls(allUrls, filteredUrls)
-	// Set up URL filter
-	// Set up printer
-	// Set up crawler registry
-	// Send first URL to URL filter
 
+	// Set up pipeline of pages to crawl.
+	allPages := make(chan page)
+	filteredPages := make(chan page)
+	go filterPages(allPages, filteredPages)
+	allPages <- page{url, depth}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Receives URL strings on the input channel, sends unique URL strings
-// on the output channel. In other words, each URL might be given to
-// "input" multiple times, but it will only be sent to "output" once.
-//
-// This function runs until as many unregister messages have been received
-// as register messages.
-func ManageUrls(input chan string, output chan string,
-	register chan bool, unregister chan bool) {
-	registerCount := 0
-	urls := make(map[string]bool)
+	// Count the number of concurrent crawls so that we know when we are done.
+	crawlers := 0
+	doneCrawling := make(chan bool)
 	for {
 		select {
-		case url := <-input:
-			if !urls[url] {
-				urls[url] = true
-				output <- url
-			}
-		case <-register:
-			registerCount++
-		case <-unregister:
-			registerCount--
-			if registerCount <= 0 {
+		case next_page := <-filteredPages:
+			crawlers++
+			go parallelCrawl(fetcher, next_page, output, allPages, doneCrawling)
+		case <-doneCrawling:
+			crawlers--
+			if crawlers == 0 {
 				return
 			}
 		}
 	}
-}
-
-func WriteUrl(output chan string, url string) {
-	output <- url
-}
-
-func ParallelCrawl(url string, url_output chan string, depth int, fetcher Fetcher) {
-	if depth <= 0 {
-		return
-	}
-}
-
-// TODO(jcarnahan): Figure out how to safely create and register crawlers
-
-// Crawl uses fetcher to recursively crawl
-// pages starting with url, to a maximum of depth.
-func Crawl(url string, depth int, fetcher Fetcher) {
-	if depth <= 0 {
-		return
-	}
-	register := make(chan bool)
-	unregister := make(chan bool)
-	filteredUrls := make(chan string)
-	allUrls := make(chan string)
-	go WriteUrl(allUrls, url)
-	go ManageUrls(allUrls, filteredUrls, register, unregister)
-	for uniqueUrl := range filteredUrls {
-		go ParallelCrawl(uniqueUrl, allUrls, depth-1, fetcher)
-	}
-
-	// TODO: Fetch URLs in parallel.
-	// TODO: Don't fetch the same URL twice.
-	// This implementation doesn't do either:
-	body, urls, err := fetcher.Fetch(url)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Printf("found: %s %q\n", url, body)
-	for _, u := range urls {
-		go Crawl(u, depth-1, fetcher)
-	}
-	return
 }
