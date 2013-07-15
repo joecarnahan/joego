@@ -50,7 +50,8 @@ func printStrings(toPrint chan string, output io.Writer) {
 func parallelCrawl(fetcher Fetcher, to_crawl page, text_output chan string, page_output chan page, done chan bool) {
 	body, urls, err := fetcher.Fetch(to_crawl.url)
 	if err != nil {
-		text_output <- err.Error()
+		text_output <- fmt.Sprintf("%v\n", err)
+		done <- true
 		return
 	}
 	text_output <- fmt.Sprintf("found: %s %q\n", to_crawl.url, body)
