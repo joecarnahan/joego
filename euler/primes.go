@@ -5,36 +5,36 @@ import "container/list"
 // Returns the lowest index in the given slice greater than the given index
 // whose value is false, or returns the length of the slice if all values with
 // index greater than the given index are true.
-func nextPrime(lastPrime int, composites []bool) int {
-	for i := lastPrime + 1; i < len(composites); i++ {
+func nextPrime(lastPrime int64, composites []bool) int64 {
+	for i := lastPrime + 1; i < int64(len(composites)); i++ {
 		if !composites[i] {
 			return i
 		}
 	}
-	return len(composites)
+	return int64(len(composites))
 }
 
 // Counts all of the values in the given slice whose index is 2 or greater and
 // whose values are false.
-func countPrimes(composites []bool) int {
+func countPrimes(composites []bool) int64 {
 	result := 0
 	for i := 2; i < len(composites); i++ {
 		if !composites[i] {
 			result++
 		}
 	}
-	return result
+	return int64(result)
 }
 
 // Given a slice of Boolean values, return the indices of all false values
 // where the index is 2 or greater. In other words, given a slice where
 // composite indices are true and prime indices are false, return all of the
 // prime indices.
-func extractPrimes(composites []bool) []int {
+func extractPrimes(composites []bool) []int64 {
 	numPrimes := countPrimes(composites)
-	result := make([]int, numPrimes)
-	i := 0
-	for j := 2; j < len(composites); j++ {
+	result := make([]int64, numPrimes)
+	i := int64(0)
+	for j := int64(2); j < int64(len(composites)); j++ {
 		if !composites[j] {
 			result[i] = j
 			i++
@@ -44,9 +44,9 @@ func extractPrimes(composites []bool) []int {
 }
 
 // Finds all prime numbers that are less than the given value.
-func PrimesUnder(limit int) []int {
+func PrimesUnder(limit int64) []int64 {
 	composites := make([]bool, limit)
-	prime := 2
+	prime := int64(2)
 	p := prime * prime
 	for p < limit {
 		for p < limit {
@@ -60,7 +60,7 @@ func PrimesUnder(limit int) []int {
 }
 
 // Finds all prime factors of the given value.
-func PrimeFactorsOf(toFactor int) *list.List {
+func PrimeFactorsOf(toFactor int64) *list.List {
 	result := list.New()
 	primes := PrimesUnder((toFactor + 2) / 2)
 	for _, prime := range primes {
