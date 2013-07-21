@@ -9,5 +9,5 @@ import (
 func main() {
 	var reps = flag.Int("reps", 100, "Number of times to run the function")
 	flag.Parse()
-	runner.RunInt64(euler.Problem003, euler.Problem003Default, *reps)
+	runner.RunInt64(euler.Problem005, euler.Problem005Default, *reps)
 }
