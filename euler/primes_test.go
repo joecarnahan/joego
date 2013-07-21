@@ -29,7 +29,3 @@ func TestPrimesUnder(t *testing.T) {
 		}
 	}
 }
-
-// TODO Implement this once list equality is implemented and tested
-// func TestPrimesUnder(t *testing.T) {
-//}
