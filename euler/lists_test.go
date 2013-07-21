@@ -118,7 +118,49 @@ func TestListsEqual(t *testing.T) {
 }
 
 func TestAddAll(t *testing.T) {
-	// TODO Implement this
+	empty := list.New()
+	emptyCopy := list.New()
+	addAll(empty, emptyCopy)
+	if length := empty.Len(); length != 0 {
+		t.Errorf("Expected result to be empty, got %v", empty)
+	}
+
+	singletonA := list.New()
+	singletonA.PushBack('a')
+	addAll(singletonA, empty)
+	if length := empty.Len(); length != 0 {
+		t.Errorf("Expected \"empty\" to still be empty, got %v", empty)
+	}
+	if length := singletonA.Len(); length != 1 {
+		t.Errorf("Expected result to contain a single element, got %v", singletonA)
+	} else if headElement := singletonA.Front(); headElement.Value != 'a' {
+		t.Errorf("Expected single value to be 'a', got '%v'", headElement.Value)
+	}
+
+	emptyGetsA := list.New()
+	addAll(emptyGetsA, singletonA)
+	if length := singletonA.Len(); length != 1 {
+		t.Errorf("Expected singletonA to still contain a single element, got %v", singletonA)
+	} else if headElement := singletonA.Front(); headElement.Value != 'a' {
+		t.Errorf("Expected single value to be 'a', got '%v'", headElement.Value)
+	}
+	if length := emptyGetsA.Len(); length != 1 {
+		t.Errorf("Expected result to contain a single element, got %v", singletonA)
+	} else if headElement := emptyGetsA.Front(); headElement.Value != 'a' {
+		t.Errorf("Expected single value to be 'a', got '%v'", headElement.Value)
+	}
+
+	singletonB := list.New()
+	singletonB.PushBack('b')
+	aGetsB := list.New()
+	aGetsB.PushBack('a')
+	ab := list.New()
+	ab.PushBack('a')
+	ab.PushBack('b')
+	addAll(aGetsB, singletonB)
+	if !listsEqual(aGetsB, ab) {
+		t.Errorf("Expected a + b to be %v, got %v", ab, aGetsB)
+	}
 }
 
 func TestMergeLists(t *testing.T) {
