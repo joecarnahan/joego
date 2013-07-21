@@ -1,7 +1,6 @@
 package euler
 
 import (
-	"container/list"
 	"reflect"
 	"testing"
 )
@@ -31,38 +30,45 @@ func TestPrimesUnder(t *testing.T) {
 	}
 }
 
-func TestPrimeFactorsOf(t *testing.T) {
+func mapSubset(a, b map[int64]int64) bool {
+	for key, valueA := range a {
+		valueB, present := b[key]
+		if !present || (valueA != valueB) {
+			return false
+		}
+	}
+	return true
+}
+
+func mapsEqual(a, b map[int64]int64) bool {
+	return mapSubset(a, b) && mapSubset(b, a)
+}
+
+func TestPrimeFactorsMap(t *testing.T) {
 	type TestCase struct {
 		Input int64
-		Output *list.List
+		Output map[int64]int64
 	}
-	factorsOf3 := list.New()
-	factorsOf3.PushBack(int64(3))
-	factorsOf4 := list.New()
-	factorsOf4.PushBack(int64(2))
-	factorsOf4.PushBack(int64(2))
-	factorsOf18 := list.New()
-	factorsOf18.PushBack(int64(2))
-	factorsOf18.PushBack(int64(3))
-	factorsOf18.PushBack(int64(3))
-	factorsOf1050 := list.New()
-	factorsOf1050.PushBack(int64(2))
-	factorsOf1050.PushBack(int64(3))
-	factorsOf1050.PushBack(int64(5))
-	factorsOf1050.PushBack(int64(5))
-	factorsOf1050.PushBack(int64(7))
+	factorsOf3 := make(map[int64]int64)
+	factorsOf3[int64(3)] = int64(1)
+	factorsOf4 := make(map[int64]int64)
+	factorsOf4[int64(2)] = int64(2)
+	factorsOf18 := make(map[int64]int64)
+	factorsOf18[int64(2)] = int64(1)
+	factorsOf18[int64(3)] = int64(2)
+	factorsOf1050 := make(map[int64]int64)
+	factorsOf1050[int64(2)] = int64(1)
+	factorsOf1050[int64(3)] = int64(1)
+	factorsOf1050[int64(5)] = int64(2)
+	factorsOf1050[int64(7)] = int64(1)
 	testCases := []TestCase{
 		TestCase{int64(3), factorsOf3},
 		TestCase{int64(4), factorsOf4},
 		TestCase{int64(18), factorsOf18},
 		TestCase{int64(1050), factorsOf1050}}
 	for _, testCase := range testCases {
-		if factors := PrimeFactorsOf(testCase.Input); !listsEqual(factors, testCase.Output) {
-			t.Errorf("Expected factors of %v to be %v, got %v", testCase.Input, ToString(testCase.Output), ToString(factors))
+		if factors := PrimeFactorsMap(testCase.Input); !mapsEqual(factors, testCase.Output) {
+			t.Errorf("Expected factors of %v to be %v, got %v", testCase.Input, testCase.Output, factors)
 		}
 	}
-}
-
-func TestPrimeFactorsMap(t *testing.T) {
-	// TODO Implement this
 }
