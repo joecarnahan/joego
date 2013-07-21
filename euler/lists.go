@@ -12,8 +12,24 @@ func removeIfPresent(fromList *list.List, toRemove interface{}) {
 	}
 }
 
+// Returns true iff the two given lists contain exactly the same sequence of
+// values.
+func listsEqual(list1, list2 *list.List) bool {
+	if list1.Len() != list2.Len() {
+		return false
+	}
+	e2 := list2.Front();
+	for e1 := list1.Front(); e1 != nil; e1 = e1.Next() {
+		if e1.Value != e2.Value {
+			return false
+		}
+		e2 = e2.Next()
+	}
+	return true
+}
+
 // Appends all elements of list2 to list1.
-func AddAll(list1, list2 *list.List) {
+func addAll(list1, list2 *list.List) {
 	for e := list2.Front(); e != nil; e = e.Next() {
 		list1.PushBack(e.Value)
 	}
@@ -31,6 +47,6 @@ func MergeLists(list1, list2 *list.List) *list.List {
 		removeIfPresent(list2, e.Value)
 		result.PushBack(e.Value)
 	}
-	AddAll(result, list2)
+	addAll(result, list2)
 	return result
 }

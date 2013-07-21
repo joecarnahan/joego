@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestremoveIfPresent(t *testing.T) {
+func TestRemoveIfPresent(t *testing.T) {
 	myList := list.New()
 	removeIfPresent(myList, 3)
 	if length := myList.Len(); length != 0 {
@@ -46,6 +46,74 @@ func TestremoveIfPresent(t *testing.T) {
 		t.Errorf("Expected a head element 2, got %v", headElement.Value)
 	} else if tailElement := myList.Back(); tailElement.Value != 1 {
 		t.Errorf("Expected a tailelement 1, got %v", tailElement.Value)
+	}
+}
+
+func TestListsEqual(t *testing.T) {
+	type ListPair struct {
+		first, second *list.List
+	}
+	empty := list.New()
+	singletonA := list.New()
+	singletonA.PushBack('a')
+	singletonB := list.New()
+	singletonB.PushBack('b')
+	ab := list.New()
+	ab.PushBack('a')
+	ab.PushBack('b')
+	abCopy := list.New()
+	abCopy.PushBack('a')
+	abCopy.PushBack('b')
+	ba := list.New()
+	ba.PushBack('b')
+	ba.PushBack('a')
+	equalLists := []ListPair{
+		ListPair{empty, empty},
+		ListPair{singletonA, singletonA},
+		ListPair{singletonB, singletonB},
+		ListPair{ab, ab},
+		ListPair{ab, abCopy},
+		ListPair{abCopy, ab},
+		ListPair{abCopy, abCopy},
+		ListPair{ba, ba}}
+	unequalLists := []ListPair{
+		ListPair{empty, singletonA},
+		ListPair{empty, singletonB},
+		ListPair{empty, ab},
+		ListPair{empty, abCopy},
+		ListPair{empty, ba},
+		ListPair{singletonA, empty},
+		ListPair{singletonA, singletonB},
+		ListPair{singletonA, ab},
+		ListPair{singletonA, abCopy},
+		ListPair{singletonA, ba},
+		ListPair{singletonB, empty},
+		ListPair{singletonB, singletonA},
+		ListPair{singletonB, ab},
+		ListPair{singletonB, abCopy},
+		ListPair{singletonB, ba},
+		ListPair{ab, empty},
+		ListPair{ab, singletonA},
+		ListPair{ab, singletonB},
+		ListPair{ab, ba},
+		ListPair{abCopy, empty},
+		ListPair{abCopy, singletonA},
+		ListPair{abCopy, singletonB},
+		ListPair{abCopy, ba},
+		ListPair{ba, empty},
+		ListPair{ba, singletonA},
+		ListPair{ba, singletonB},
+		ListPair{ba, ab},
+		ListPair{ba, abCopy}}
+	for _, pair := range equalLists {
+		if !listsEqual(pair.first, pair.second) {
+			t.Errorf("Expected lists %v and %v to be equal", pair.first, pair.second)
+		}
+	}
+	for _, pair := range unequalLists {
+		if listsEqual(pair.first, pair.second) {
+			t.Errorf("Expected lists %v and %v to be unequal", pair.first, pair.second)
+		}
 	}
 }
 
