@@ -3,7 +3,7 @@ package euler
 import "container/list"
 
 // Removes the first occurrence of toRemove from the given list.
-func RemoveIfPresent(fromList *list.List, toRemove interface{}) {
+func removeIfPresent(fromList *list.List, toRemove interface{}) {
 	for e := fromList.Front(); e != nil; e = e.Next() {
 		if e.Value == toRemove {
 			fromList.Remove(e)
@@ -28,7 +28,7 @@ func AddAll(list1, list2 *list.List) {
 func MergeLists(list1, list2 *list.List) *list.List {
 	result := list.New()
 	for e := list1.Front(); e != nil; e = e.Next() {
-		RemoveIfPresent(list2, e.Value)
+		removeIfPresent(list2, e.Value)
 		result.PushBack(e.Value)
 	}
 	AddAll(result, list2)
