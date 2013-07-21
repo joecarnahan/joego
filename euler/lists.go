@@ -1,6 +1,22 @@
 package euler
 
-import "container/list"
+import (
+	"container/list"
+	"fmt"
+)
+
+// Stringifies the list. Implemented simply but not efficiently.
+func ToString(l *list.List) string {
+	result := "List("
+	for e := l.Front(); e != nil; e = e.Next() {
+		result += fmt.Sprintf("%v", e.Value)
+		if e.Next() != nil {
+			result += ", "
+		}
+	}
+	result += ")"
+	return result
+}
 
 // Removes the first occurrence of toRemove from the given list.
 func removeIfPresent(fromList *list.List, toRemove interface{}) {
