@@ -33,12 +33,3 @@ func TestPrimesUnder(t *testing.T) {
 // TODO Implement this once list equality is implemented and tested
 // func TestPrimesUnder(t *testing.T) {
 //}
-
-func TestPrimeGenerator(t *testing.T) {
-	generator := NewPrimeGenerator()
-	for _, expected := range primes {
-		if actual := generator.Next(); actual != expected {
-			t.Errorf("Expected prime number %v, got %v", expected, actual)
-		}
-	}
-}
