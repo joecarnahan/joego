@@ -30,9 +30,9 @@ func TestPrimesUnder(t *testing.T) {
 	}
 }
 
-func TestPrimesUnder(t *testing.T) {
-	// TODO Once list equality is implemented and tested
-}
+// TODO Implement this once list equality is implemented and tested
+// func TestPrimesUnder(t *testing.T) {
+//}
 
 func TestPrimeGenerator(t *testing.T) {
 	generator := NewPrimeGenerator()

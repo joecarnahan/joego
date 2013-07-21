@@ -1,18 +1,19 @@
 package euler
 
 import (
-	"container/list"
+	// TODO Implement when used
+	// "container/list"
 	"testing"
 )
 
 func TestRemoveIfPresent(t *testing.T) {
-	// TODO
+	// TODO Implement this
 }
 
 func TestAddAll(t *testing.T) {
-	// TODO
+	// TODO Implement this
 }
 
 func TestMergeLists(t *testing.T) {
-	// TODO
+	// TODO Implement this
 }
