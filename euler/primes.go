@@ -63,7 +63,6 @@ func PrimesUnder(limit int64) []int64 {
 }
 
 // Finds all prime factors of the given value.
-// TODO RESUME HERE Why doesn't this work for factoring 3?
 func PrimeFactorsOf(toFactor int64) *list.List {
 	result := list.New()
 	primes := PrimesUnder((toFactor + 2) / 2)
@@ -74,6 +73,10 @@ func PrimeFactorsOf(toFactor int64) *list.List {
 			result.PushBack(prime)
 			toFactor = toFactor / prime
 		}
+	}
+	// If result is empty, then toFactor is its own prime factor.
+	if result.Len() == 0 {
+		result.PushBack(toFactor)
 	}
 	return result
 }
