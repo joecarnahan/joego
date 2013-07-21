@@ -1,6 +1,7 @@
 package euler
 
 import (
+	"container/list"
 	"reflect"
 	"testing"
 )
@@ -31,7 +32,35 @@ func TestPrimesUnder(t *testing.T) {
 }
 
 func TestPrimeFactorsOf(t *testing.T) {
-	// TODO Implement this
+	type TestCase struct {
+		Input int64
+		Output *list.List
+	}
+	factorsOf3 := list.New()
+	factorsOf3.PushBack(int64(3))
+	factorsOf4 := list.New()
+	factorsOf4.PushBack(int64(2))
+	factorsOf4.PushBack(int64(2))
+	factorsOf18 := list.New()
+	factorsOf18.PushBack(int64(2))
+	factorsOf18.PushBack(int64(3))
+	factorsOf18.PushBack(int64(3))
+	factorsOf1050 := list.New()
+	factorsOf1050.PushBack(int64(2))
+	factorsOf1050.PushBack(int64(3))
+	factorsOf1050.PushBack(int64(5))
+	factorsOf1050.PushBack(int64(5))
+	factorsOf1050.PushBack(int64(7))
+	testCases := []TestCase{
+		TestCase{int64(3), factorsOf3},
+		TestCase{int64(4), factorsOf4},
+		TestCase{int64(18), factorsOf18},
+		TestCase{int64(1050), factorsOf1050}}
+	for _, testCase := range testCases {
+		if factors := PrimeFactorsOf(testCase.Input); !listsEqual(factors, testCase.Output) {
+			t.Errorf("Expected factors of %v to be %v, got %v", testCase.Input, ToString(testCase.Output), ToString(factors))
+		}
+	}
 }
 
 func TestPrimeFactorsMap(t *testing.T) {

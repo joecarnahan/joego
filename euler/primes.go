@@ -1,6 +1,9 @@
 package euler
 
-import "container/list"
+import (
+	"container/list"
+	"fmt"
+)
 
 // Returns the lowest index in the given slice greater than the given index
 // whose value is false, or returns the length of the slice if all values with
@@ -60,11 +63,14 @@ func PrimesUnder(limit int64) []int64 {
 }
 
 // Finds all prime factors of the given value.
+// TODO RESUME HERE Why doesn't this work for factoring 3?
 func PrimeFactorsOf(toFactor int64) *list.List {
 	result := list.New()
 	primes := PrimesUnder((toFactor + 2) / 2)
 	for _, prime := range primes {
 		for toFactor%prime == 0 {
+			// debug
+			fmt.Printf("Factoring %v, got %v\n", toFactor, prime)
 			result.PushBack(prime)
 			toFactor = toFactor / prime
 		}
@@ -72,4 +78,12 @@ func PrimeFactorsOf(toFactor int64) *list.List {
 	return result
 }
 
-// Finds all prime factors of the given value and returns a map
+// Returns a map from all prime factors of the given value to the number of
+// times those factors appear in the prime factorization of the given value.
+func PrimeFactorsMap(toFactor int64) map[int64]int64 {
+	result := make(map[int64]int64)
+	for e := PrimeFactorsOf(toFactor).Front(); e != nil; e = e.Next() {
+		result[e.Value.(int64)]++
+	}
+	return result
+}
