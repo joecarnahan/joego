@@ -1,21 +1,29 @@
 package euler
 
-import "container/list"
-
 const Problem005Default = 10
+
+// Adds all key-value pairs from "b" to "a". If a key appears in both maps,
+// then value of that key in "a" is incremented by the value of that key in
+// "b".
+func mergeMaps(a, b map[int64]int64) {
+	for key, value := range b {
+		a[key] += value
+	}
+}
+
 
 func Problem005(limit int64) int64 {
 	// Map from factors to the number of times they are a factor
-	// TODO RESUME HERE
 	factors := make(map[int64]int64)
-	factors := list.New()
 	for i := int64(2); i <= limit; i++ {
-		newFactors := PrimeFactorsOf(i)
-		factors = MergeLists(factors, newFactors)
+		newFactors := PrimeFactorsMap(i)
+		mergeMaps(factors, newFactors)
 	}
 	product := int64(1)
-	for e := factors.Front(); e != nil; e = e.Next() {
-		product *= e.Value.(int64)
+	for factor, count := range factors {
+		for i := int64(0); i < count; i++ {
+			product *= factor
+		}
 	}
 	return product
 }

@@ -29,3 +29,11 @@ func TestPrimesUnder(t *testing.T) {
 		}
 	}
 }
+
+func TestPrimeFactorsOf(t *testing.T) {
+	// TODO Implement this
+}
+
+func TestPrimeFactorsMap(t *testing.T) {
+	// TODO Implement this
+}

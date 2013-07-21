@@ -71,3 +71,5 @@ func PrimeFactorsOf(toFactor int64) *list.List {
 	}
 	return result
 }
+
+// Finds all prime factors of the given value and returns a map

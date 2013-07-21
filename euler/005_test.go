@@ -1,6 +1,10 @@
 package euler
 
-// import "testing"
+import "testing"
+
+func TestMergeMaps(t *testing.T) {
+	// TODO Implement this
+}
 
 // TODO Figure out why this test doesn't pass
 /* func TestProblem005(t *testing.T) {
