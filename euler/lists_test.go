@@ -162,7 +162,3 @@ func TestAddAll(t *testing.T) {
 		t.Errorf("Expected a + b to be %v, got %v", ab, aGetsB)
 	}
 }
-
-func TestMergeLists(t *testing.T) {
-	// TODO Implement this
-}

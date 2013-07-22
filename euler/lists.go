@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// Stringifies the list. Implemented simply but not efficiently.
+// Stringifies the list. Not a particularly efficient implementation.
 func ToString(l *list.List) string {
 	result := "List("
 	for e := l.Front(); e != nil; e = e.Next() {
@@ -19,7 +19,7 @@ func ToString(l *list.List) string {
 }
 
 // Removes the first occurrence of toRemove from the given list.
-func removeIfPresent(fromList *list.List, toRemove interface{}) {
+func RemoveIfPresent(fromList *list.List, toRemove interface{}) {
 	for e := fromList.Front(); e != nil; e = e.Next() {
 		if e.Value == toRemove {
 			fromList.Remove(e)
@@ -30,7 +30,7 @@ func removeIfPresent(fromList *list.List, toRemove interface{}) {
 
 // Returns true iff the two given lists contain exactly the same sequence of
 // values.
-func listsEqual(list1, list2 *list.List) bool {
+func ListsEqual(list1, list2 *list.List) bool {
 	if list1.Len() != list2.Len() {
 		return false
 	}
@@ -45,24 +45,8 @@ func listsEqual(list1, list2 *list.List) bool {
 }
 
 // Appends all elements of list2 to list1.
-func addAll(list1, list2 *list.List) {
+func AddAll(list1, list2 *list.List) {
 	for e := list2.Front(); e != nil; e = e.Next() {
 		list1.PushBack(e.Value)
 	}
-}
-
-// Creates a list that contains all of the values from both lists, where any
-// value that appears X times in list1 and Y times in list2 will appear max(X,Y)
-// times in the resulting list.
-//
-// This function modifies the given lists.
-// TODO: Determine if it's worth building a defensive copy into this function
-func MergeLists(list1, list2 *list.List) *list.List {
-	result := list.New()
-	for e := list1.Front(); e != nil; e = e.Next() {
-		removeIfPresent(list2, e.Value)
-		result.PushBack(e.Value)
-	}
-	addAll(result, list2)
-	return result
 }
