@@ -12,7 +12,6 @@ func mergeMaps(a, b map[int64]int64) {
 	}
 }
 
-
 func Problem005(limit int64) int64 {
 	// Map from factors to the number of times they are a factor
 	factors := make(map[int64]int64)

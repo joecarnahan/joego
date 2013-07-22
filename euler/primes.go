@@ -44,7 +44,7 @@ func extractPrimes(composites []bool) []int64 {
 // Finds all prime numbers that are less than the given value.
 func PrimesUnder(limit int64) []int64 {
 	// Build a Boolean slice where true values correspond to composite
-	// numbers and false values correspond to prime numbers. Then, 
+	// numbers and false values correspond to prime numbers. Then,
 	// convert that slice into a slice containing just the prime numbers.
 	composites := make([]bool, limit)
 	prime := int64(2)

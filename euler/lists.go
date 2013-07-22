@@ -34,7 +34,7 @@ func ListsEqual(list1, list2 *list.List) bool {
 	if list1.Len() != list2.Len() {
 		return false
 	}
-	e2 := list2.Front();
+	e2 := list2.Front()
 	for e1 := list1.Front(); e1 != nil; e1 = e1.Next() {
 		if e1.Value != e2.Value {
 			return false

@@ -46,7 +46,7 @@ func mapsEqual(a, b map[int64]int64) bool {
 
 func TestPrimeFactorsOf(t *testing.T) {
 	type TestCase struct {
-		Input int64
+		Input  int64
 		Output map[int64]int64
 	}
 	factorsOf3 := make(map[int64]int64)
