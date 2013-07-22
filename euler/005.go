@@ -17,7 +17,7 @@ func Problem005(limit int64) int64 {
 	// Map from factors to the number of times they are a factor
 	factors := make(map[int64]int64)
 	for i := int64(2); i <= limit; i++ {
-		newFactors := PrimeFactorsMap(i)
+		newFactors := PrimeFactorsOf(i)
 		mergeMaps(factors, newFactors)
 	}
 	product := int64(1)

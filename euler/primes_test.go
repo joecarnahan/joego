@@ -44,7 +44,7 @@ func mapsEqual(a, b map[int64]int64) bool {
 	return mapSubset(a, b) && mapSubset(b, a)
 }
 
-func TestPrimeFactorsMap(t *testing.T) {
+func TestPrimeFactorsOf(t *testing.T) {
 	type TestCase struct {
 		Input int64
 		Output map[int64]int64
@@ -67,7 +67,7 @@ func TestPrimeFactorsMap(t *testing.T) {
 		TestCase{int64(18), factorsOf18},
 		TestCase{int64(1050), factorsOf1050}}
 	for _, testCase := range testCases {
-		if factors := PrimeFactorsMap(testCase.Input); !mapsEqual(factors, testCase.Output) {
+		if factors := PrimeFactorsOf(testCase.Input); !mapsEqual(factors, testCase.Output) {
 			t.Errorf("Expected factors of %v to be %v, got %v", testCase.Input, testCase.Output, factors)
 		}
 	}

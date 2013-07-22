@@ -1,7 +1,5 @@
 package euler
 
-import "container/list"
-
 // Returns the lowest index in the given slice greater than the given index
 // whose value is false, or returns the length of the slice if all values with
 // index greater than the given index are true.
@@ -59,29 +57,20 @@ func PrimesUnder(limit int64) []int64 {
 	return extractPrimes(composites)
 }
 
-// Finds all prime factors of the given value.
-func PrimeFactorsOf(toFactor int64) *list.List {
-	result := list.New()
+// Returns a map from all prime factors of the given value to the number of
+// times those factors appear in the prime factorization of the given value.
+func PrimeFactorsOf(toFactor int64) map[int64]int64 {
+	result := make(map[int64]int64)
 	primes := PrimesUnder((toFactor + 2) / 2)
 	for _, prime := range primes {
 		for toFactor%prime == 0 {
-			result.PushBack(prime)
+			result[prime]++
 			toFactor = toFactor / prime
 		}
 	}
 	// If result is empty, then toFactor is its own prime factor.
-	if result.Len() == 0 {
-		result.PushBack(toFactor)
-	}
-	return result
-}
-
-// Returns a map from all prime factors of the given value to the number of
-// times those factors appear in the prime factorization of the given value.
-func PrimeFactorsMap(toFactor int64) map[int64]int64 {
-	result := make(map[int64]int64)
-	for e := PrimeFactorsOf(toFactor).Front(); e != nil; e = e.Next() {
-		result[e.Value.(int64)]++
+	if len(result) == 0 {
+		result[toFactor]++
 	}
 	return result
 }
