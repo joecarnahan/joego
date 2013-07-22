@@ -1,13 +1,14 @@
 package euler
 
-const Problem005Default = 10
+const Problem005Default = 20
 
 // Adds all key-value pairs from "b" to "a". If a key appears in both maps,
-// then value of that key in "a" is incremented by the value of that key in
-// "b".
+// then value of that key in "a" becomes max(a[key], b[key]).
 func mergeMaps(a, b map[int64]int64) {
 	for key, value := range b {
-		a[key] += value
+		if value > a[key] {
+			a[key] = value
+		}
 	}
 }
 

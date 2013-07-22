@@ -39,8 +39,36 @@ func TestMergeMaps(t *testing.T) {
 	}
 	if len(has11Gets11) != 1 {
 		t.Errorf("Expected result to have one element, got %v", has11Gets11)
-	} else if has11Gets11[int64(1)] != int64(2) {
-		t.Errorf("Expected result[1] to be 2, got %v", has11Gets11[int64(1)])
+	} else if has11Gets11[int64(1)] != int64(1) {
+		t.Errorf("Expected result[1] to be 1, got %v", has11Gets11[int64(1)])
+	}
+	has11Gets12 := make(map[int64]int64)
+	has11Gets12[int64(1)] = int64(1)
+	has12 := make(map[int64]int64)
+	has12[int64(1)] = int64(2)
+	mergeMaps(has11Gets12, has12)
+	if len(has12) != 1 {
+		t.Errorf("Expected has12 to still have one element, got %v", has12)
+	} else if has12[int64(1)] != int64(2) {
+		t.Errorf("Expected has12[1] to be 2, got %v", has12[int64(1)])
+	}
+	if len(has11Gets12) != 1 {
+		t.Errorf("Expected result to have one element, got %v", has11Gets12)
+	} else if has11Gets12[int64(1)] != int64(2) {
+		t.Errorf("Expected result[1] to be 2, got %v", has11Gets12[int64(1)])
+	}
+	has13Gets12 := make(map[int64]int64)
+	has13Gets12[int64(1)] = int64(3)
+	mergeMaps(has13Gets12, has12)
+	if len(has12) != 1 {
+		t.Errorf("Expected has12 to still have one element, got %v", has12)
+	} else if has12[int64(1)] != int64(2) {
+		t.Errorf("Expected has12[1] to be 2, got %v", has12[int64(1)])
+	}
+	if len(has13Gets12) != 1 {
+		t.Errorf("Expected result to have one element, got %v", has13Gets12)
+	} else if has13Gets12[int64(1)] != int64(3) {
+		t.Errorf("Expected result[1] to be 3, got %v", has13Gets12[int64(1)])
 	}
 	has2345Gets11 := make(map[int64]int64)
 	has2345Gets11[int64(2)] = int64(3)
@@ -62,10 +90,9 @@ func TestMergeMaps(t *testing.T) {
 	}
 }
 
-// TODO Figure out why this test doesn't pass
-/* func TestProblem005(t *testing.T) {
+func TestProblem005(t *testing.T) {
 	const expected = 232792560
 	if out := Problem005(Problem005Default); out != expected {
 		t.Errorf("Got %v, want %v", out, expected)
 	}
-} */
+}
