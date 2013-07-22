@@ -1,9 +1,6 @@
 package euler
 
-import (
-	"container/list"
-	"fmt"
-)
+import "container/list"
 
 // Returns the lowest index in the given slice greater than the given index
 // whose value is false, or returns the length of the slice if all values with
@@ -68,8 +65,6 @@ func PrimeFactorsOf(toFactor int64) *list.List {
 	primes := PrimesUnder((toFactor + 2) / 2)
 	for _, prime := range primes {
 		for toFactor%prime == 0 {
-			// debug
-			fmt.Printf("Factoring %v, got %v\n", toFactor, prime)
 			result.PushBack(prime)
 			toFactor = toFactor / prime
 		}
